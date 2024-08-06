@@ -1,0 +1,67 @@
+{
+    "id": "aem-cloud",
+    "version": "1",
+    "name": "Adobe Experience Manager SDK",
+    "description": "Setup author and publish services. And the dispatcher tools. Requires the AEM as a Cloud Service SDK.",
+    "options": {
+        "sdksDirectory": {
+            "type": "string",
+            "description": "Path to directory that contains one or more SDKs. This should be relative to the container workspace folder.",
+            "default": ".devcontainer"
+        },
+        "sdkVersion": {
+            "type": "string",
+            "description": "AEM SDK Version that will be retreived from the SDKs directory.",
+            "default": "automatic"
+        },
+        "authorPort": {
+            "type": "string",
+            "description": "Author service port",
+            "default": "4502"
+        },
+        "publishPort": {
+            "type": "string",
+            "description": "Publish service port",
+            "default": "4503"
+        },
+        "dispatcherPort": {
+            "type": "string",
+            "description": "Dispatcher port",
+            "default": "8080"
+        }
+    },
+    "containerEnv": {
+        "AEM_CLOUD_FEATURE_DIR": "/aem-cloud"
+    },
+    "mounts": [
+        {
+            "source": "aem-cloud-author-${devcontainerId}",
+            "target": "/aem-cloud/author/crx-quickstart",
+            "type": "volume"
+        },
+        {
+            "source": "aem-cloud-publish-${devcontainerId}",
+            "target": "/aem-cloud/publish/crx-quickstart",
+            "type": "volume"
+        }
+    ],
+    "onCreateCommand": {
+        "publish-instance": [
+            "/aem-cloud/scripts/setup-service.sh",
+            "publish"
+        ],
+        "author-instance": [
+            "/aem-cloud/scripts/setup-service.sh",
+            "author"
+        ],
+        "dispatcher": [
+            "/aem-cloud/scripts/setup-dispatcher.sh"
+        ]
+    },
+    "dependsOn": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/java:1"
+    ]
+}

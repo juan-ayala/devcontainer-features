@@ -21,5 +21,6 @@
         "ghcr.io/devcontainers/features/docker-in-docker:2": {}
     },
     "remoteUser": "node",
-    "updateContentCommand": "npm install -g @devcontainers/cli"
+    "updateContentCommand": "npm install -g @devcontainers/cli",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
 }
