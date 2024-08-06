@@ -14,4 +14,3 @@ source ${propertiesFile}
 
 # copy custom scripts
 cp -r "$(dirname $0)/scripts" ${AEM_SDK_FEATURE_DIR}
-#find "${AEM_SDK_FEATURE_DIR}/scripts" -name "*.sh" -exec chmod +x {} \;

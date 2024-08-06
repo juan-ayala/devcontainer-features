@@ -19,7 +19,6 @@ cd ${cwd}
 
 # rename directory and add bin to PATH
 sudo find ${AEM_SDK_FEATURE_DIR}/dispatcher-sdk-* -maxdepth 0 -type d -execdir mv {} dispatcher \;
-add_line_to_shell_rc "export PATH=${PATH}:${AEM_SDK_FEATURE_DIR}/dispatcher/bin"
 
 # alias to start dispatcher
 add_line_to_shell_rc "alias start-dispatcher='cd dispatcher && ${AEM_SDK_FEATURE_DIR}/dispatcher/bin/docker_run.sh src host.docker.internal:${AEM_SDK_PUBLISH_PORT} ${AEM_SDK_DISPATCHER_PORT}'"
