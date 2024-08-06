@@ -1,5 +1,5 @@
 {
-    "id": "aem-cloud",
+    "id": "aem-sdk",
     "version": "1",
     "name": "Adobe Experience Manager SDK",
     "description": "Setup author and publish services. And the dispatcher tools. Requires the AEM as a Cloud Service SDK.",
@@ -31,31 +31,31 @@
         }
     },
     "containerEnv": {
-        "AEM_CLOUD_FEATURE_DIR": "/aem-cloud"
+        "AEM_SDK_FEATURE_DIR": "/aem-sdk"
     },
     "mounts": [
         {
-            "source": "aem-cloud-author-${devcontainerId}",
-            "target": "/aem-cloud/author/crx-quickstart",
+            "source": "aem-sdk-author-${devcontainerId}",
+            "target": "/aem-sdk/author/crx-quickstart",
             "type": "volume"
         },
         {
-            "source": "aem-cloud-publish-${devcontainerId}",
-            "target": "/aem-cloud/publish/crx-quickstart",
+            "source": "aem-sdk-publish-${devcontainerId}",
+            "target": "/aem-sdk/publish/crx-quickstart",
             "type": "volume"
         }
     ],
     "onCreateCommand": {
         "publish-instance": [
-            "/aem-cloud/scripts/setup-service.sh",
+            "/aem-sdk/scripts/setup-service.sh",
             "publish"
         ],
         "author-instance": [
-            "/aem-cloud/scripts/setup-service.sh",
+            "/aem-sdk/scripts/setup-service.sh",
             "author"
         ],
         "dispatcher": [
-            "/aem-cloud/scripts/setup-dispatcher.sh"
+            "/aem-sdk/scripts/setup-dispatcher.sh"
         ]
     },
     "dependsOn": {

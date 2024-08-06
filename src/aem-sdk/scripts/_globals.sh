@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-source "${AEM_CLOUD_FEATURE_DIR}/options.sh"
+source "${AEM_SDK_FEATURE_DIR}/options.sh"
 
 function get_runmode_port()
 {
     local runmode="${1}"
     if [ "${runmode}" = "publish" ]; then
-        echo "${AEM_CLOUD_PUBLISH_PORT}"
+        echo "${AEM_SDK_PUBLISH_PORT}"
     else
-        echo "${AEM_CLOUD_AUTHOR_PORT}"
+        echo "${AEM_SDK_AUTHOR_PORT}"
     fi
 }
 
@@ -21,7 +21,7 @@ function get_runmode_jar()
 
 function get_sdk_directory()
 {
-    local directory="$(pwd)/${AEM_CLOUD_SDKS_DIRECTORY}"
+    local directory="$(pwd)/${AEM_SDK_SDKS_DIRECTORY}"
     if [ -d ${directory} ]; then
         echo ${directory}
     else
@@ -32,10 +32,10 @@ function get_sdk_directory()
 function get_aem_sdk_zip()
 {
     local sdks_dir=$(get_sdk_directory)
-    if [ "${AEM_CLOUD_VERSION}" = "automatic" ]; then
+    if [ "${AEM_SDK_VERSION}" = "automatic" ]; then
         echo "$(find ${sdks_dir}/aem-sdk-*.zip -maxdepth 0 -type f | sort -V | tail -n1)"
     else
-        echo "${sdks_dir}/aem-sdk-${AEM_CLOUD_VERSION}.zip"
+        echo "${sdks_dir}/aem-sdk-${AEM_SDK_VERSION}.zip"
     fi
 }
 

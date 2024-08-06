@@ -3,14 +3,14 @@
         "image": "mcr.microsoft.com/devcontainers/base:debian",
         "features": {
             "ghcr.io/devcontainers/features/java:1": {},
-            "aem-cloud": {}
+            "aem-sdk": {}
         }
     },
     "options-with-sdk": {
         "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
         "features": {
             "ghcr.io/devcontainers/features/java:1": {},
-            "aem-cloud": {
+            "aem-sdk": {
                 "sdksDirectory": ".devcontainer/sdksfolder",
                 "sdkVersion": "mock-2024.02.01",
                 "authorPort": "3001",
