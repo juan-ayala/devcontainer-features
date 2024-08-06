@@ -31,10 +31,10 @@ check "dispatcher port default" \
 # Check setup scripts in PATH and executable
 check "_globals is +x" \
     stat -c '%A' $(which _globals.sh) | grep 'x.*x.*x'
-check "setup-dispatcher is +x" \
-    stat -c '%A' $(which setup-dispatcher.sh) | grep 'x.*x.*x'
-check "setup-service is +x" \
-    stat -c '%A' $(which setup-service.sh) | grep 'x.*x.*x'
+check "aem-sdk-setup-dispatcher is +x" \
+    stat -c '%A' $(which aem-sdk-setup-dispatcher.sh) | grep 'x.*x.*x'
+check "aem-sdk-setup-service is +x" \
+    stat -c '%A' $(which aem-sdk-setup-service.sh) | grep 'x.*x.*x'
 # Check instance jars and dispatcher run script not installed
 check "no author jar" \
     [ ! -f "${AEM_SDK_FEATURE_DIR}/author/aem-author-p${AEM_SDK_AUTHOR_PORT}.jar" ]

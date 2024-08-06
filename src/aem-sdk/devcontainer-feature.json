@@ -48,15 +48,15 @@
     ],
     "onCreateCommand": {
         "publish-instance": [
-            "/aem-sdk/scripts/setup-service.sh",
+            "aem-sdk-setup-service.sh",
             "publish"
         ],
         "author-instance": [
-            "/aem-sdk/scripts/setup-service.sh",
+            "aem-sdk-setup-service.sh",
             "author"
         ],
         "dispatcher": [
-            "/aem-sdk/scripts/setup-dispatcher.sh"
+            "aem-sdk-setup-dispatcher.sh"
         ]
     },
     "dependsOn": {
