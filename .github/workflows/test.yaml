@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         features:
-          - aem-cloud
+          - aem-sdk
         baseImage:
           - mcr.microsoft.com/devcontainers/base:debian
           - mcr.microsoft.com/devcontainers/base:ubuntu
@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         features:
-          - aem-cloud
+          - aem-sdk
     steps:
       - uses: actions/checkout@v3
 
