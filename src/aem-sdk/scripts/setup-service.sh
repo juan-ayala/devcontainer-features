@@ -9,7 +9,7 @@ runmode="${1}"
 sdkzip=$(get_aem_sdk_zip)
 [ -z ${sdkzip} ] && exit
 
-runmodedir="${AEM_CLOUD_FEATURE_DIR}/${runmode}"
+runmodedir="${AEM_SDK_FEATURE_DIR}/${runmode}"
 sudo unzip -d ${runmodedir} ${sdkzip} 'aem-sdk-quickstart-*.jar'
 jar_file=$(get_runmode_jar ${runmode})
 sudo find ${runmodedir}/aem-sdk-quickstart-*.jar -maxdepth 0 -type f -execdir mv {} ${jar_file} \;
