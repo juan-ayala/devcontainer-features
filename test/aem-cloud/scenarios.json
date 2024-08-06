@@ -1,0 +1,22 @@
+{
+    "defaults-with-sdk": {
+        "image": "mcr.microsoft.com/devcontainers/base:debian",
+        "features": {
+            "ghcr.io/devcontainers/features/java:1": {},
+            "aem-cloud": {}
+        }
+    },
+    "options-with-sdk": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "ghcr.io/devcontainers/features/java:1": {},
+            "aem-cloud": {
+                "sdksDirectory": ".devcontainer/sdksfolder",
+                "sdkVersion": "mock-2024.02.01",
+                "authorPort": "3001",
+                "publishPort": "3002",
+                "dispatcherPort": "8090"
+            }
+        }
+    }
+}
