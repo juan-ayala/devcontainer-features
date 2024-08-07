@@ -13,5 +13,4 @@ echo "AEM_SDK_DISPATCHER_PORT=\"${DISPATCHERPORT:-'8080'}\"" >> ${propertiesFile
 source ${propertiesFile}
 
 # copy custom scripts
-cp -r "$(dirname $0)/scripts" ${AEM_SDK_FEATURE_DIR}
-#find "${AEM_SDK_FEATURE_DIR}/scripts" -name "*.sh" -exec chmod +x {} \;
+cp -r "$(dirname $0)/bin" ${AEM_SDK_FEATURE_DIR}

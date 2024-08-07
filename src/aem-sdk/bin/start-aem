@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+usage() {
+    cat <<EOM
+Usage: $(basename $0) <service> 
+where 
+  <service> is 'dispatcher' or 'author' or 'publish'
+EOM
+    exit 1
+}
+
+[ "${1}" = 'dispatcher' ] && service="${1}"
+[ "${1}" = 'author' ] && service="${1}"
+[ "${1}" = 'publish' ] && service="${1}"
+[ -z "${service}" ] && usage
+
+source "$(dirname $0)/_globals.sh"
+
+if [[ "${service}" == "dispatcher" ]]; then
+
+    toolsdir="${AEM_SDK_FEATURE_DIR}/dispatcher"
+    # setup if dispatcher directory is missing
+    if [[ ! -d ${toolsdir} ]]; then
+        $(dirname $0)/aem-sdk-setup-dispatcher.sh
+    fi
+
+elif [[ "${service}" == "author" || "${service}" == "publish" ]]; then
+
+    jar="${AEM_SDK_FEATURE_DIR}/${service}/$(get_runmode_jar ${service})"
+    # setup aem if jar file is missing
+    if [[ ! -f ${jar} ]]; then
+        $(dirname $0)/aem-sdk-setup-service.sh ${service}
+    fi
+fi
+
+bash -ci "start-${service}"

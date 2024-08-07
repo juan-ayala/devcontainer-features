@@ -28,13 +28,9 @@ check "publish port default" \
     [ "${AEM_SDK_PUBLISH_PORT}" = "4503" ]
 check "dispatcher port default" \
     [ "${AEM_SDK_DISPATCHER_PORT}" = "8080" ]
-# Check setup scripts installed
-check "_globals is +x" \
-    stat -c '%A' ${AEM_SDK_FEATURE_DIR}/scripts/_globals.sh | grep 'x.*x.*x'
-check "setup-dispatcher is +x" \
-    stat -c '%A' ${AEM_SDK_FEATURE_DIR}/scripts/setup-dispatcher.sh | grep 'x.*x.*x'
-check "setup-service is +x" \
-    stat -c '%A' ${AEM_SDK_FEATURE_DIR}/scripts/setup-service.sh | grep 'x.*x.*x'
+# Check start-aem in PATH is executable
+check "start-aem is +x" \
+    stat -c '%A' $(which start-aem) | grep 'x.*x.*x'
 # Check instance jars and dispatcher run script not installed
 check "no author jar" \
     [ ! -f "${AEM_SDK_FEATURE_DIR}/author/aem-author-p${AEM_SDK_AUTHOR_PORT}.jar" ]
