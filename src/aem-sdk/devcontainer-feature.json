@@ -32,7 +32,7 @@
     },
     "containerEnv": {
         "AEM_SDK_FEATURE_DIR": "/aem-sdk",
-        "PATH": "/aem-sdk/scripts:/aem-sdk/dispatcher/bin:${PATH}"
+        "PATH": "/aem-sdk/bin:/aem-sdk/dispatcher/bin:${PATH}"
     },
     "mounts": [
         {

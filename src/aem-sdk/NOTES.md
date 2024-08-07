@@ -20,15 +20,14 @@
 ## Step 3: Visual Studio Code
 * Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). And open the project folder.
 * VSCode will detect `.devcontainer/devcontainer.json`. And prompt you to reopen the project in a devcontainer.
-* After the container gets created, the feature will run the setup scripts. They will create the folder structure for an author and publish service. And unpack the dispatcher tools.
 
 ## Run AEM Services
 In VSCode, open the terminal window. This is a terminal inside the docker container. You can run any command as needed, including Maven and Node.
 
-Additionally, the feature will have added some helpful aliases
-* `start-author`
-* `start-publish`
-* `start-dispatcher`
+There will be a script named `start-aem`. Use this to start the author, publish or dispatcher.
+* Start author: `start-aem author`
+* Start publish: `start-aem publish`
+* Start dispatcher: `start-aem dispatcher`
 
 The feature also sets up volume mounts for the author and publish services. This is where the services will persist the repository. So that if the container gets deleted and/or rebuilt, the repository will persist.
 
