@@ -38,8 +38,3 @@ function get_aem_sdk_zip()
         echo "${sdks_dir}/aem-sdk-${AEM_SDK_VERSION}.zip"
     fi
 }
-
-function add_line_to_shell_rc()
-{
-    echo "${1}" >> "${HOME}/.$(basename ${SHELL})rc"
-}

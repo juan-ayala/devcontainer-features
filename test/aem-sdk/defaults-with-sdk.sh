@@ -21,10 +21,10 @@ check "start-aem is +x" \
     stat -c '%A' $(which start-aem) | grep 'x.*x.*x'
 # Check that author/publish/dispatcher installs and starts
 check "can install & run author" \
-    bash -ci "start-aem author | grep 'hello, world'"
+    bash -c "start-aem author | grep 'hello, world'"
 check "can install & run publish" \
-    bash -ci "start-aem publish | grep 'hello, world'"
+    bash -c "start-aem publish | grep 'hello, world'"
 check "can install & run dispatcher" \
-    bash -ci "start-aem dispatcher | grep 'All your base are belong to us'"
+    bash -c "start-aem dispatcher | grep 'All your base are belong to us'"
 
 reportResults
