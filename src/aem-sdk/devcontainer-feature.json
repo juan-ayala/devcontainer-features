@@ -46,19 +46,6 @@
             "type": "volume"
         }
     ],
-    "onCreateCommand": {
-        "publish-instance": [
-            "aem-sdk-setup-service.sh",
-            "publish"
-        ],
-        "author-instance": [
-            "aem-sdk-setup-service.sh",
-            "author"
-        ],
-        "dispatcher": [
-            "aem-sdk-setup-dispatcher.sh"
-        ]
-    },
     "dependsOn": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {}
     },
