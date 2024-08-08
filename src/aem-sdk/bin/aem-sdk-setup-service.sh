@@ -7,7 +7,6 @@ runmode="${1}"
 
 # extract and rename the quickstart jar
 sdkzip=$(get_aem_sdk_zip)
-[ -z ${sdkzip} ] && exit
 
 runmodedir="${AEM_SDK_FEATURE_DIR}/${runmode}"
 sudo unzip -d ${runmodedir} ${sdkzip} 'aem-sdk-quickstart-*.jar'

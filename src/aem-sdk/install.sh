@@ -5,8 +5,8 @@ mkdir -p ${AEM_SDK_FEATURE_DIR}
 
 # save feature properties
 propertiesFile="${AEM_SDK_FEATURE_DIR}/options.sh"
+echo "AEM_SDK_SDKS_DIRECTORY=\"${SDKSDIRECTORY}\"" >> ${propertiesFile}
 echo "AEM_SDK_VERSION=\"${SDKVERSION:-'automatic'}\"" >> ${propertiesFile}
-echo "AEM_SDK_SDKS_DIRECTORY=\"${SDKSDIRECTORY:-'.devcontainer'}\"" >> ${propertiesFile}
 echo "AEM_SDK_AUTHOR_PORT=\"${AUTHORPORT:-'4502'}\"" >> ${propertiesFile}
 echo "AEM_SDK_PUBLISH_PORT=\"${PUBLISHPORT:-'4503'}\"" >> ${propertiesFile}
 echo "AEM_SDK_DISPATCHER_PORT=\"${DISPATCHERPORT:-'8080'}\"" >> ${propertiesFile}

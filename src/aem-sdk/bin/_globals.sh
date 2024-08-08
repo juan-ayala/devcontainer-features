@@ -19,22 +19,26 @@ function get_runmode_jar()
     echo "aem-${runmode}-p${port}.jar"
 }
 
-function get_sdk_directory()
-{
-    local directory="$(pwd)/${AEM_SDK_SDKS_DIRECTORY}"
-    if [ -d ${directory} ]; then
-        echo ${directory}
-    else
-        echo "$(pwd)/.devcontainer"
-    fi
-}
-
 function get_aem_sdk_zip()
 {
-    local sdks_dir=$(get_sdk_directory)
+    local sdks_dir="${AEM_SDK_SDKS_DIRECTORY}"
+    if [ ! -d ${sdks_dir} ]; then
+        sdks_dir="$(pwd)"
+    fi
+
+    local sdk="${sdks_dir}/aem-sdk-${AEM_SDK_VERSION}.zip"
     if [ "${AEM_SDK_VERSION}" = "automatic" ]; then
-        echo "$(find ${sdks_dir}/aem-sdk-*.zip -maxdepth 0 -type f | sort -V | tail -n1)"
+        sdk="$(find ${sdks_dir}/aem-sdk-*.zip -maxdepth 0 -type f | sort -V | tail -n1)"        
+    fi
+
+    if [ ! -f "${sdk}" ]; then
+        cat <<EOM
+No AEM SDK found.
+Search Path: ${sdks_dir}
+Search Version: ${AEM_SDK_VERSION}
+EOM
+        exit 1
     else
-        echo "${sdks_dir}/aem-sdk-${AEM_SDK_VERSION}.zip"
+        echo "${sdk}"
     fi
 }
