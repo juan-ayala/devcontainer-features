@@ -2,11 +2,11 @@
 
 source "$(dirname $0)/_globals.sh"
 
-# extract the dispatcher install script
-sdkzip=$(get_aem_sdk_zip)
+sdkzip=$(get_aem_sdk_zip) || aem_sdk_not_found
 
+# extract the dispatcher install script
 sudo unzip -d ${AEM_SDK_FEATURE_DIR} ${sdkzip} 'aem-sdk-dispatcher-tools-*-unix.sh'
-installscript="$(find ${AEM_SDK_FEATURE_DIR}/aem-sdk-dispatcher-tools-*-unix.sh -maxdepth 0 -type f | tail -n1)"
+installscript="$(find ${AEM_SDK_FEATURE_DIR} -maxdepth 1 -iname 'aem-sdk-dispatcher-tools-*-unix.sh' -type f | tail -n1)"
 
 # run install script (in its directory)
 sudo chmod a+x ${installscript}
@@ -17,4 +17,4 @@ sudo rm ${installscript}
 cd ${cwd}
 
 # rename directory
-sudo find ${AEM_SDK_FEATURE_DIR}/dispatcher-sdk-* -maxdepth 0 -type d -execdir mv {} dispatcher \;
+sudo find ${AEM_SDK_FEATURE_DIR} -maxdepth 1 -iname 'dispatcher-sdk-*' -type d -execdir mv {} dispatcher \;

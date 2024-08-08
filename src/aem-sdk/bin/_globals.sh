@@ -21,24 +21,23 @@ function get_runmode_jar()
 
 function get_aem_sdk_zip()
 {
-    local sdks_dir="${AEM_SDK_SDKS_DIRECTORY}"
-    if [ ! -d ${sdks_dir} ]; then
-        sdks_dir="$(pwd)"
-    fi
+    local searchdir="${AEM_SDK_SDKS_DIRECTORY}"
+    [ ! -d ${searchdir} ] && return 1
 
-    local sdk="${sdks_dir}/aem-sdk-${AEM_SDK_VERSION}.zip"
+    local sdk="${searchdir}/aem-sdk-${AEM_SDK_VERSION}.zip"
     if [ "${AEM_SDK_VERSION}" = "automatic" ]; then
-        sdk="$(find ${sdks_dir}/aem-sdk-*.zip -maxdepth 0 -type f | sort -V | tail -n1)"        
+        sdk="$(find ${searchdir} -maxdepth 1 -iname 'aem-sdk-*.zip' -type f | sort -V | tail -n1)"
     fi
 
-    if [ ! -f "${sdk}" ]; then
-        cat <<EOM
-No AEM SDK found.
-Search Path: ${sdks_dir}
-Search Version: ${AEM_SDK_VERSION}
+    [ ! -f "${sdk}" ] && return 1 || echo "${sdk}"
+}
+
+function aem_sdk_not_found()
+{
+    cat <<EOM
+AEM SDK not found.
+  sdksDirectory: '${AEM_SDK_SDKS_DIRECTORY:-empty}'
+  sdkVersion: '${AEM_SDK_VERSION}'
 EOM
-        exit 1
-    else
-        echo "${sdk}"
-    fi
+exit 42
 }
