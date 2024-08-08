@@ -1,13 +1,13 @@
 {
     "id": "aem-sdk",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "name": "Adobe Experience Manager SDK",
     "description": "Setup author and publish services. And the dispatcher tools. Requires the AEM as a Cloud Service SDK.",
     "options": {
         "sdksDirectory": {
             "type": "string",
-            "description": "Path to directory that contains one or more SDKs. This should be relative to the container workspace folder.",
-            "default": ".devcontainer"
+            "description": "Path to directory that contains one or more SDKs.",
+            "default": ""
         },
         "sdkVersion": {
             "type": "string",

@@ -6,10 +6,10 @@ source dev-container-features-test-lib
 
 # Check options file created with defaults
 source ${AEM_SDK_FEATURE_DIR}/options.sh
+check "sdks directory default" \
+    echo "${AEM_SDK_SDKS_DIRECTORY}" | grep -E "^/workspaces/[0-9]+/.devcontainer$"
 check "sdk version default" \
     [ "${AEM_SDK_VERSION}" = "automatic" ]
-check "sdks directory default" \
-    [ "${AEM_SDK_SDKS_DIRECTORY}" = ".devcontainer" ]
 check "author port default" \
     [ "${AEM_SDK_AUTHOR_PORT}" = "4502" ]
 check "publish port default" \
