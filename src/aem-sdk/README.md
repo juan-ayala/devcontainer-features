@@ -15,7 +15,7 @@ Setup author and publish services. And the dispatcher tools. Requires the AEM as
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| sdksDirectory | Path to directory that contains one or more SDKs. This should be relative to the container workspace folder. | string | .devcontainer |
+| sdksDirectory | Path to directory that contains one or more SDKs. | string | - |
 | sdkVersion | AEM SDK Version that will be retreived from the SDKs directory. | string | automatic |
 | authorPort | Author service port | string | 4502 |
 | publishPort | Publish service port | string | 4503 |
