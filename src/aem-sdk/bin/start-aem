@@ -19,16 +19,20 @@ source "$(dirname $0)/_globals.sh"
 if [[ "${service}" == "dispatcher" ]]; then
 
     toolsdir="${AEM_SDK_FEATURE_DIR}/dispatcher"
-    # install it
-    [[ ! -d ${toolsdir} ]] && $(dirname $0)/aem-sdk-setup-dispatcher.sh || exit
+    if [[ ! -d ${toolsdir} ]]; then
+        # install it
+        $(dirname $0)/aem-sdk-setup-dispatcher.sh || exit
+    fi
     # run it
     docker_run.sh src host.docker.internal:${AEM_SDK_PUBLISH_PORT} ${AEM_SDK_DISPATCHER_PORT}
 
 elif [[ "${service}" == "author" || "${service}" == "publish" ]]; then
 
     jar="${AEM_SDK_FEATURE_DIR}/${service}/$(get_runmode_jar ${service})"
-    # install it
-    [[ ! -f ${jar} ]] && $(dirname $0)/aem-sdk-setup-service.sh ${service} || exit
+    if [[ ! -f ${jar} ]]; then
+        # install it
+        $(dirname $0)/aem-sdk-setup-service.sh ${service} || exit
+    fi
     # run it
     port=$(get_runmode_port ${service})
     jvm_opts="-agentlib:jdwp=transport=dt_socket,address=*:3${port},server=y,suspend=n"
