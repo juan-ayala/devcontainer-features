@@ -1,0 +1,30 @@
+{
+    "id": "aem-universal-editor-service",
+    "version": "1.0.0",
+    "name": "Adobe Experience Manager Universal Editor Service",
+    "description": "Setup the AEM Universal Editor Service for local development.",
+    "options": {
+        "uesDownloadsDirectory": {
+            "type": "string",
+            "description": "Path to directory that contains one or more UES zip files downloaded from Adobe's Software Distribution.",
+            "default": ""
+        },
+        "uesVersion": {
+            "type": "string",
+            "description": "Universal Editor Service version.",
+            "default": "automatic"
+        },
+        "uesPort": {
+            "type": "string",
+            "description": "Universal Editor Service port.",
+            "default": "8000"
+        }
+    },
+    "containerEnv": {
+        "AEM_UES_FEATURE_DIR": "/aem-ues",
+        "PATH": "/aem-ues/bin:${PATH}"
+    },
+    "dependsOn": {
+        "ghcr.io/devcontainers/features/node:1": {}
+    }
+}

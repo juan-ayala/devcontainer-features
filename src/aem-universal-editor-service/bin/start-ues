@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+source "${AEM_UES_FEATURE_DIR}/options.sh"
+
+function ues_zip_not_found()
+{
+    cat <<EOM
+AEM Universal Editor Service zip not found.
+  uesDownloadsDirectory: '${AEM_UES_DOWNLOADS_DIR:-empty}'
+  uesVersion: '${AEM_UES_VERSION}'
+EOM
+exit 42
+}
+
+function get_ues_zip()
+{
+    local searchdir="${AEM_UES_DOWNLOADS_DIR}"
+    [ ! -d ${searchdir} ] && return 1
+
+    local zip="${searchdir}/universal-editor-service-vprod-${AEM_UES_VERSION}.zip"
+    if [ "${AEM_UES_VERSION}" = "automatic" ]; then
+        zip="$(find ${searchdir} -maxdepth 1 -iname 'universal-editor-service-vprod-*.zip' -type f | sort -V | tail -n1)"
+    fi
+
+    [ ! -f "${zip}" ] && return 1 || echo "${zip}"
+}
+
+if [ ! -f "${AEM_UES_FEATURE_DIR}/universal-editor-service.cjs" ]; then
+    ueszip=$(get_ues_zip) || ues_zip_not_found
+    sudo unzip -d ${AEM_UES_FEATURE_DIR} ${ueszip}
+fi
+
+cd ${AEM_UES_FEATURE_DIR}
+nvm install
+nvm use
+node universal-editor-service.cjs
