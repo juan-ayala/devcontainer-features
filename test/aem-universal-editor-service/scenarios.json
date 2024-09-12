@@ -1,0 +1,20 @@
+{
+    "defaults-with-zip": {
+        "image": "mcr.microsoft.com/devcontainers/base:debian",
+        "features": {
+            "aem-universal-editor-service": {
+                "uesDownloadsDirectory": "${containerWorkspaceFolder}/.devcontainer"
+            }
+        }
+    },
+    "options-with-zip": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "aem-universal-editor-service": {
+                "uesDownloadsDirectory": "${containerWorkspaceFolder}/.devcontainer",
+                "uesVersion": "mock-2024.02.01",
+                "uesPort": "9090"
+            }
+        }
+    }
+}

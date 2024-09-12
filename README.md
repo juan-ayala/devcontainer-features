@@ -5,3 +5,6 @@
 
 ## `aem-repo-tool`
 > Installs the [AEM repo tool](https://github.com/Adobe-Marketing-Cloud/tools/tree/master/repo).
+
+## `aem-universal-editor-service`
+> Install a local Universal Editor Service. See: [Local AEM Development with the Universal Editor](https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/developing/universal-editor/local-dev)
