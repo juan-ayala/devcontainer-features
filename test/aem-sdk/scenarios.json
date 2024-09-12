@@ -13,7 +13,7 @@
         "features": {
             "ghcr.io/devcontainers/features/java:1": {},
             "aem-sdk": {
-                "sdksDirectory": "${containerWorkspaceFolder}/.devcontainer/sdksfolder",
+                "sdksDirectory": "${containerWorkspaceFolder}/.devcontainer",
                 "sdkVersion": "mock-2024.02.01",
                 "authorPort": "3001",
                 "publishPort": "3002",
