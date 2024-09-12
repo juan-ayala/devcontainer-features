@@ -1,6 +1,6 @@
 {
     "id": "aem-repo-tool",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "Adobe Experience Manager Repo Tool",
     "description": "Setup AEM repo tool, an FTP-like tool for JCR content.",
     "options": {
@@ -13,8 +13,5 @@
     "containerEnv": {
         "AEM_REPO_TOOL_FEATURE_DIR": "/aem-repo-tool",
         "PATH": "/aem-repo-tool:${PATH}"
-    },
-    "dependsOn": {
-        "ghcr.io/devcontainers/features/node:1": {}
     }
 }
