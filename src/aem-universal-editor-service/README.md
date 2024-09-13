@@ -16,8 +16,11 @@ Setup the AEM Universal Editor Service for local development.
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
 | uesDownloadsDirectory | Path to directory that contains one or more UES zip files downloaded from Adobe's Software Distribution. | string | - |
+| uesNodeVersion | Node.js version to use when running the Universal Editor Service. | string | 20 |
 | uesVersion | Universal Editor Service version. | string | automatic |
 | uesPort | Universal Editor Service port. | string | 8000 |
+| authorHttpPort | HTTP port the AEM author is running on. | string | 4502 |
+| authorHttpsPort | HTTPS port that should be proxied for the AEM author. | string | 44302 |
 
 # Adding the Feature to a Project
 
