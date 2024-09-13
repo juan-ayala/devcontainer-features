@@ -7,7 +7,7 @@
 
 ## Step 1: The SDK Archive
 * [Download](https://experienceleague.adobe.com/en/docs/experience-manager-learn/cloud-service/local-development-environment-set-up/aem-runtime#download-the-aem-as-a-cloud-service-sdk) the AEM SDK form Adobe's [Software Distribuition](https://experience.adobe.com/#/downloads) Site.
-* Place the ZIP archive in your project folder (i.e. `.devcontainer/aem-sdk-2024.4.15977.20240418T174835Z-240400.zip)
+* Place the ZIP archive in your project folder (i.e. `.devcontainer/aem-sdk-2024.4.15977.20240418T174835Z-240400.zip`)
 
 ## Step 2: The Devcontainer Settings
 * Add the following feature to the `.devcontainer/devcontainer.json` file
