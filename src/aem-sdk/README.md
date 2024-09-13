@@ -36,7 +36,9 @@ Setup author and publish services. And the dispatcher tools. Requires the AEM as
 * Add the following feature to the `.devcontainer/devcontainer.json` file
 ```jsonc
 "features": {
-    "ghcr.io/juan-ayala/devcontainer-features/aem-sdk:1": {}
+    "ghcr.io/juan-ayala/devcontainer-features/aem-sdk:1": {
+        "sdksDirectory": "${containerWorkspaceFolder}/.devcontainer"
+    }
 }
 ```
 
