@@ -20,14 +20,20 @@ source dev-container-features-test-lib
 source ${AEM_UES_FEATURE_DIR}/options.sh
 check "downloads directory default" \
     [ -z "${AEM_UES_DOWNLOADS_DIR}" ]
-check "sdk version default" \
+check "ues node version default" \
+    [ "${AEM_UES_NODE_VERSION}" = "20" ]
+check "ues version default" \
     [ "${AEM_UES_VERSION}" = "automatic" ]
+check "ues port default" \
+    [ "${AEM_UES_PORT}" = "8000" ]
+check "ues port default" \
+    [ "${AEM_UES_AUTHOR_HTTP_PORT}" = "4502" ]
+check "ues port default" \
+    [ "${AEM_UES_AUTHOR_HTTPS_PORT}" = "44302" ]
 # Check start-ues in PATH is executable
 check "start-ues is +x" \
     stat -c '%A' $(which start-ues) | grep 'x.*x.*x'
 # Check config files created
-check "created .nvmrc" \
-    [ -f "${AEM_UES_FEATURE_DIR}/.nvmrc" ]
 check "can read key" \
     stat -c '%a' "${AEM_UES_FEATURE_DIR}/key.pem" | grep 640
 check "key group set to remote user" \

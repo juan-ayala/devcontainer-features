@@ -33,7 +33,10 @@ fi
 cd ${AEM_UES_FEATURE_DIR}
 
 source ${NVM_DIR}/nvm.sh
-nvm install
-nvm use
-
-node universal-editor-service.cjs
+nvm install ${AEM_UES_NODE_VERSION}
+nvm exec ${AEM_UES_NODE_VERSION} \
+    npm install -g local-ssl-proxy concurrently
+nvm exec ${AEM_UES_NODE_VERSION} \
+    concurrently --kill-others \
+    "node universal-editor-service.cjs" \
+    "local-ssl-proxy --source ${AEM_UES_AUTHOR_HTTPS_PORT} --target ${AEM_UES_AUTHOR_HTTP_PORT}" 

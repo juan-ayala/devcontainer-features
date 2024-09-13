@@ -1,6 +1,6 @@
 {
     "id": "aem-universal-editor-service",
-    "version": "1.0.1",
+    "version": "1.2.0",
     "name": "Adobe Experience Manager Universal Editor Service",
     "description": "Setup the AEM Universal Editor Service for local development.",
     "options": {
@@ -8,6 +8,11 @@
             "type": "string",
             "description": "Path to directory that contains one or more UES zip files downloaded from Adobe's Software Distribution.",
             "default": ""
+        },
+        "uesNodeVersion": {
+            "type": "string",
+            "description": "Node.js version to use when running the Universal Editor Service.",
+            "default": "20"
         },
         "uesVersion": {
             "type": "string",
@@ -18,6 +23,16 @@
             "type": "string",
             "description": "Universal Editor Service port.",
             "default": "8000"
+        },
+        "authorHttpPort": {
+            "type": "string",
+            "description": "HTTP port the AEM author is running on.",
+            "default": "4502"
+        },
+        "authorHttpsPort": {
+            "type": "string",
+            "description": "HTTPS port that should be proxied for the AEM author.",
+            "default": "44302"
         }
     },
     "containerEnv": {
