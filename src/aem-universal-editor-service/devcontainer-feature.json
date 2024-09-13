@@ -1,6 +1,6 @@
 {
     "id": "aem-universal-editor-service",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "Adobe Experience Manager Universal Editor Service",
     "description": "Setup the AEM Universal Editor Service for local development.",
     "options": {

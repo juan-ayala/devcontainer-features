@@ -28,8 +28,10 @@ check "start-ues is +x" \
 # Check config files created
 check "created .nvmrc" \
     [ -f "${AEM_UES_FEATURE_DIR}/.nvmrc" ]
-check "created key" \
-    [ -f "${AEM_UES_FEATURE_DIR}/key.pem" ]
+check "can read key" \
+    stat -c '%a' "${AEM_UES_FEATURE_DIR}/key.pem" | grep 640
+check "key group set to remote user" \
+    stat -c '%G' "${AEM_UES_FEATURE_DIR}/key.pem" | grep "${_REMOTE_USER}"
 check "created certificate" \
     [ -f "${AEM_UES_FEATURE_DIR}/certificate.pem" ]
 check "created .env" \

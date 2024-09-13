@@ -31,6 +31,9 @@ if [ ! -f "${AEM_UES_FEATURE_DIR}/universal-editor-service.cjs" ]; then
 fi
 
 cd ${AEM_UES_FEATURE_DIR}
+
+source ${NVM_DIR}/nvm.sh
 nvm install
 nvm use
+
 node universal-editor-service.cjs

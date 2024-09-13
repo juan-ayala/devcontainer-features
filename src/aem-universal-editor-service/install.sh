@@ -19,6 +19,9 @@ echo "20" > "${AEM_UES_FEATURE_DIR}/.nvmrc"
 # create ssl cert and private key
 openssl req -newkey rsa:2048 -nodes -keyout "${AEM_UES_FEATURE_DIR}/key.pem" \
         -x509 -days 365 -out "${AEM_UES_FEATURE_DIR}/certificate.pem" -subj '/CN=localhost'
+# and allow remote user to read private key
+chgrp ${_REMOTE_USER} "${AEM_UES_FEATURE_DIR}/key.pem"
+chmod g+r "${AEM_UES_FEATURE_DIR}/key.pem"
 
 # create .env file
 envfile="${AEM_UES_FEATURE_DIR}/.env"
