@@ -18,7 +18,8 @@ Setup the AEM Universal Editor Service for local development.
 | uesDownloadsDirectory | Path to directory that contains one or more UES zip files downloaded from Adobe's Software Distribution. | string | - |
 | uesNodeVersion | Node.js version to use when running the Universal Editor Service. | string | 20 |
 | uesVersion | Universal Editor Service version. | string | automatic |
-| uesPort | Universal Editor Service port. | string | 8000 |
+| uesHttpPort | Universal Editor Service HTTP port. | string | 8001 |
+| uesHttpsPort | Universal Editor Service HTTPS port. | string | 8000 |
 | authorHttpPort | HTTP port the AEM author is running on. | string | 4502 |
 | authorHttpsPort | HTTPS port that should be proxied for the AEM author. | string | 44302 |
 
@@ -31,7 +32,7 @@ Setup the AEM Universal Editor Service for local development.
 
 ## Step 1: The Universal Editor Distribution
 * [Download](https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/developing/universal-editor/local-dev#install-ue-service) the AEM Universal Editor form Adobe's [Software Distribuition](https://experience.adobe.com/#/downloads) Site.
-* Place the ZIP archive in your project folder (i.e. `.devcontainer/universal-editor-service-vprod-20240912200213.zip)
+* Place the ZIP archive in your project folder (i.e. `.devcontainer/universal-editor-service-vprod-20240912200213.zip`)
 
 ## Step 2: The Devcontainer Settings
 * Add the following feature to the `.devcontainer/devcontainer.json` file
@@ -58,6 +59,7 @@ Once the service has started, verify you can get the core library. Make sure to 
 
 ## References
 * [Local AEM Development with the Universal Editor](https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/developing/universal-editor/local-dev#install-ue-service)
+
 
 ---
 
