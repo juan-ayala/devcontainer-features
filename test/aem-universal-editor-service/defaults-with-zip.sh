@@ -12,11 +12,13 @@ check "ues node version default" \
     [ "${AEM_UES_NODE_VERSION}" = "20" ]
 check "ues version default" \
     [ "${AEM_UES_VERSION}" = "automatic" ]
-check "ues port default" \
-    [ "${AEM_UES_PORT}" = "8000" ]
-check "ues port default" \
+check "ues http port default" \
+    [ "${AEM_UES_HTTP_PORT}" = "8001" ]
+check "ues https port default" \
+    [ "${AEM_UES_HTTPS_PORT}" = "8000" ]
+check "author http port default" \
     [ "${AEM_UES_AUTHOR_HTTP_PORT}" = "4502" ]
-check "ues port default" \
+check "author https port default" \
     [ "${AEM_UES_AUTHOR_HTTPS_PORT}" = "44302" ]
 
 # Check that ues installs and exec the node script

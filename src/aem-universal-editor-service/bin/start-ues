@@ -25,18 +25,26 @@ function get_ues_zip()
     [ ! -f "${zip}" ] && return 1 || echo "${zip}"
 }
 
-if [ ! -f "${AEM_UES_FEATURE_DIR}/universal-editor-service.cjs" ]; then
-    ueszip=$(get_ues_zip) || ues_zip_not_found
-    sudo unzip -d ${AEM_UES_FEATURE_DIR} ${ueszip}
-fi
-
 cd ${AEM_UES_FEATURE_DIR}
 
+# Install UES if not installed
+if [ ! -f universal-editor-service.cjs ]; then
+    ueszip=$(get_ues_zip) || ues_zip_not_found
+    sudo unzip ${ueszip}
+fi
+
+# Source node version manager
 source ${NVM_DIR}/nvm.sh
+
+# Install node version
 nvm install ${AEM_UES_NODE_VERSION}
+# And required global packages
 nvm exec ${AEM_UES_NODE_VERSION} \
     npm install -g local-ssl-proxy concurrently
+
+# Run TLS termination for UES and Author
 nvm exec ${AEM_UES_NODE_VERSION} \
     concurrently --kill-others \
-    "node universal-editor-service.cjs" \
-    "local-ssl-proxy --source ${AEM_UES_AUTHOR_HTTPS_PORT} --target ${AEM_UES_AUTHOR_HTTP_PORT}" 
+        "node universal-editor-service.cjs" \
+        "local-ssl-proxy --source ${AEM_UES_HTTPS_PORT} --target ${AEM_UES_HTTP_PORT}" \
+        "local-ssl-proxy --source ${AEM_UES_AUTHOR_HTTPS_PORT} --target ${AEM_UES_AUTHOR_HTTP_PORT}"

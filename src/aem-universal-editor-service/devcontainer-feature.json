@@ -1,6 +1,6 @@
 {
     "id": "aem-universal-editor-service",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "name": "Adobe Experience Manager Universal Editor Service",
     "description": "Setup the AEM Universal Editor Service for local development.",
     "options": {
@@ -19,9 +19,14 @@
             "description": "Universal Editor Service version.",
             "default": "automatic"
         },
-        "uesPort": {
+        "uesHttpPort": {
             "type": "string",
-            "description": "Universal Editor Service port.",
+            "description": "Universal Editor Service HTTP port.",
+            "default": "8001"
+        },
+        "uesHttpsPort": {
+            "type": "string",
+            "description": "Universal Editor Service HTTPS port.",
             "default": "8000"
         },
         "authorHttpPort": {

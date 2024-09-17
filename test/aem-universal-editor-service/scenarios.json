@@ -12,9 +12,10 @@
         "features": {
             "aem-universal-editor-service": {
                 "uesDownloadsDirectory": "${containerWorkspaceFolder}/.devcontainer",
-                "uesNodeVersion": "22",
+                "uesNodeVersion": "16",
                 "uesVersion": "mock-2024.02.01",
-                "uesPort": "9090",
+                "uesHttpPort": "9091",
+                "uesHttpsPort": "9090",
                 "authorHttpPort": "4510",
                 "authorHttpsPort": "44310"
             }

@@ -24,22 +24,18 @@ check "ues node version default" \
     [ "${AEM_UES_NODE_VERSION}" = "20" ]
 check "ues version default" \
     [ "${AEM_UES_VERSION}" = "automatic" ]
-check "ues port default" \
-    [ "${AEM_UES_PORT}" = "8000" ]
-check "ues port default" \
+check "ues http port default" \
+    [ "${AEM_UES_HTTP_PORT}" = "8001" ]
+check "ues https port default" \
+    [ "${AEM_UES_HTTPS_PORT}" = "8000" ]
+check "author http port default" \
     [ "${AEM_UES_AUTHOR_HTTP_PORT}" = "4502" ]
-check "ues port default" \
+check "author https port default" \
     [ "${AEM_UES_AUTHOR_HTTPS_PORT}" = "44302" ]
 # Check start-ues in PATH is executable
 check "start-ues is +x" \
     stat -c '%A' $(which start-ues) | grep 'x.*x.*x'
-# Check config files created
-check "can read key" \
-    stat -c '%a' "${AEM_UES_FEATURE_DIR}/key.pem" | grep 640
-check "key group set to remote user" \
-    stat -c '%G' "${AEM_UES_FEATURE_DIR}/key.pem" | grep "${_REMOTE_USER}"
-check "created certificate" \
-    [ -f "${AEM_UES_FEATURE_DIR}/certificate.pem" ]
+# Check .env file created
 check "created .env" \
     [ -f "${AEM_UES_FEATURE_DIR}/.env" ]
 
