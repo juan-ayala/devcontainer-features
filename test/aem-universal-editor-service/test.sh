@@ -38,6 +38,9 @@ check "start-ues is +x" \
 # Check .env file created
 check "created .env" \
     [ -f "${AEM_UES_FEATURE_DIR}/.env" ]
+# Check OSGi config content package copied
+check "copied OSGi config package" \
+    [ -f "${AEM_UES_FEATURE_DIR}/aem-universal-editor-service.ui.config-1.0.0.zip" ]
 
 # Report result
 # If any of the checks above exited with a non-zero exit code, the test will fail.

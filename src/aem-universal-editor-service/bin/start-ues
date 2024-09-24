@@ -27,6 +27,16 @@ function get_ues_zip()
 
 cd ${AEM_UES_FEATURE_DIR}
 
+# Install the content package that contains OSGi configs if not installed
+# AEM_SDK_FEATURE_DIR is defined by the aem-sdk feature
+if [ -d "${AEM_SDK_FEATURE_DIR}" ]; then
+    installDir="${AEM_SDK_FEATURE_DIR}/author/crx-quickstart/install"
+    if [ ! -f "${installDir}/aem-universal-editor-service.ui.config-1.0.0.zip" ]; then
+        mkdir -p "${installDir}"
+        cp "${AEM_UES_FEATURE_DIR}/aem-universal-editor-service.ui.config-1.0.0.zip" "${installDir}"
+    fi
+fi
+
 # Install UES if not installed
 if [ ! -f universal-editor-service.cjs ]; then
     ueszip=$(get_ues_zip) || ues_zip_not_found

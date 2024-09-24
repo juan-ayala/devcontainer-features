@@ -17,6 +17,10 @@ source ${propertiesFile}
 # copy custom scripts
 cp -r "$(dirname $0)/bin" ${AEM_UES_FEATURE_DIR}
 
+# copy content package that contains localhost OSGi configs
+cp "$(dirname $0)/aem-universal-editor-service.ui.config-1.0.0.zip" ${AEM_UES_FEATURE_DIR}
+
+# create .env file for UES
 if [ ! -f "${AEM_UES_FEATURE_DIR}/.env" ]; then
     cat <<EOF > "${AEM_UES_FEATURE_DIR}/.env"
 UES_PORT=${AEM_UES_HTTP_PORT}
