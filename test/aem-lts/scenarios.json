@@ -1,0 +1,17 @@
+{
+    "defaults-with-quickstart": {
+        "image": "mcr.microsoft.com/devcontainers/base:debian",
+        "features": {
+            "ghcr.io/devcontainers/features/java:1": {
+                "version": "21",
+                "jdkDistro": "oracle",
+                "installMaven": true
+            },
+            "aem-lts": {
+                "quickstartJar": "${containerWorkspaceFolder}/.devcontainer/mock-cq-quickstart-6.6.0.jar",
+                "licenseCustomerName": "test-customer",
+                "licenseDownloadId": "test-download-id"
+            }
+        }
+    }
+}
