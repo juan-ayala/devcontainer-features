@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+source "$(dirname $0)/_globals.sh"
+action=$(get_action "${1}")
+service=$(get_runmode "${2}")
+
+echo "${action^}ing AEM ${service}..."
+
+# copy the jar if not already there
+JAR_NAME=$(basename "${AEM_LTS_QUICKSTART_JAR}")
+jarFile="${AEM_LTS_FEATURE_DIR}/${JAR_NAME}"
+if [[ ! -f "${jarFile}" ]]; then
+    if [[ -f "${AEM_LTS_QUICKSTART_JAR}" ]]; then
+        sudo cp "${AEM_LTS_QUICKSTART_JAR}" "${jarFile}"
+    else
+        aem_lts_err "Quickstart jar '${AEM_LTS_QUICKSTART_JAR}' not found"
+    fi
+fi
+
+# create the license file if not already there
+licenceFile="${AEM_LTS_FEATURE_DIR}/license.properties"
+if [[ ! -f "${licenceFile}" ]]; then
+
+    # check license properties
+    [[ -z "${AEM_LTS_LICENSE_CUSTOMER_NAME}" ]] && \
+        aem_lts_err "License customer name not set"
+    [[ -z "${AEM_LTS_LICENSE_DOWNLOAD_ID}" ]] && \
+        aem_lts_err "License download ID not set"
+        
+    cat <<EOF | sudo tee "${licenceFile}" > /dev/null
+license.customer.name=${AEM_LTS_LICENSE_CUSTOMER_NAME}
+license.downloadID=${AEM_LTS_LICENSE_DOWNLOAD_ID}
+license.product.name=Adobe Experience Manager
+license.product.version=6.5.0.LTS
+EOF
+
+fi
+
+runmodedir="${AEM_LTS_FEATURE_DIR}/${service}"
+
+# link the jar if not already linked
+jarFileLink="${runmodedir}/${JAR_NAME}"
+[[ ! -L "${jarFileLink}" ]] && sudo ln -s "${jarFile}" "${jarFileLink}"
+
+# link the license if not already linked
+licenseFileLink="${runmodedir}/license.properties"
+[[ ! -L "${licenseFileLink}" ]] && sudo ln -s "${licenceFile}" "${licenseFileLink}"
+
+# make user owner of crx-quickstart (it is a volume mount)
+sudo chown ${USER} "${runmodedir}/crx-quickstart"
+
+case "${action}" in
+    start)
+
+        [[ -f "/tmp/aem-${service}.pid" ]] && aem_lts_err "AEM ${service} already running"
+
+        port=$(get_runmode_port ${service})
+        jvm_opts="-agentlib:jdwp=transport=dt_socket,address=*:3${port},server=y,suspend=n"
+        cq_opts="-nofork -nobrowser -nointeractive -r ${service} -p ${port}"
+
+        sudo start-stop-daemon --start --quiet --background --chuid root \
+                               --make-pidfile --pidfile "/tmp/aem-${service}.pid" \
+                               --name ${service} \
+                               --chdir "$(dirname "${jarFileLink}")" \
+                               --startas /bin/bash -- -c "exec ${JAVA_HOME}/bin/java ${jvm_opts} -jar "${jarFileLink}" ${cq_opts} \
+                               > /var/log/aem-${service}.log 2>&1"
+    ;;
+    stop)
+
+        sudo start-stop-daemon --stop --verbose \
+                               --remove-pidfile --pidfile /tmp/aem-${service}.pid
+    ;;
+    *)
+        aem_lts_err "Unknown action '${action}'"
+esac

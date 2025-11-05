@@ -5,6 +5,9 @@ You will need to download the required packages from [Adobe's software distribut
 
 ![Software Distribution](software-distribution.png)
 
+## [aem-lts](/src/aem-lts)
+> Install and run AEM author and publish. You must have access to the AEM 6.5 LTS. It is only available through the Adobe software distribution site. This feature only facilitates the setup process.
+
 ## [aem-sdk](/src/aem-sdk)
 > Install and run AEM author, publish and dispatcher. You must have access to the AEM SDK. It is only available through the Adobe software distribution site. This feature only facilitates the setup process. See: [Developing AEM Inside a Dev Container](https://theaemmaven.com/post/developing-aem-inside-a-dev-container)
 

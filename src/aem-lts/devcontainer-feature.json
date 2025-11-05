@@ -1,0 +1,52 @@
+{
+    "id": "aem-lts",
+    "version": "1.0.0",
+    "name": "Adobe Experience Manager LTS",
+    "description": "Setup author and publish services. Requires the AEM LTS quickstart jar and license details.",
+    "options": {
+        "quickstartJar": {
+            "type": "string",
+            "description": "AEM LTS Quickstart Jar.",
+            "default": ""
+        },
+        "licenseCustomerName": {
+            "type": "string",
+            "description": "AEM LTS License Customer Name.",
+            "default": ""
+        },
+        "licenseDownloadId": {
+            "type": "string",
+            "description": "AEM LTS License Download Id.",
+            "default": ""
+        },
+        "authorPort": {
+            "type": "string",
+            "description": "Author service port",
+            "default": "4502"
+        },
+        "publishPort": {
+            "type": "string",
+            "description": "Publish service port",
+            "default": "4503"
+        }
+    },
+    "containerEnv": {
+        "AEM_LTS_FEATURE_DIR": "/aem-lts",
+        "PATH": "/aem-lts/bin:/aem-lts/dispatcher/bin:${PATH}"
+    },
+    "mounts": [
+        {
+            "source": "aem-lts-author-${devcontainerId}",
+            "target": "/aem-lts/author/crx-quickstart",
+            "type": "volume"
+        },
+        {
+            "source": "aem-lts-publish-${devcontainerId}",
+            "target": "/aem-lts/publish/crx-quickstart",
+            "type": "volume"
+        }
+    ],
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/java:1"
+    ]
+}
