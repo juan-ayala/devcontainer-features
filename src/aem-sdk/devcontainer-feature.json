@@ -1,6 +1,6 @@
 {
     "id": "aem-sdk",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "name": "Adobe Experience Manager SDK",
     "description": "Setup author and publish services. And the dispatcher tools. Requires the AEM as a Cloud Service SDK.",
     "options": {
