@@ -1,6 +1,6 @@
 {
     "id": "aem-lts",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "name": "Adobe Experience Manager LTS",
     "description": "Setup author and publish services. Requires the AEM LTS quickstart jar and license details.",
     "options": {
