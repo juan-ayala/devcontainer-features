@@ -19,6 +19,11 @@
       "version": "1.7.1",
       "resolved": "ghcr.io/devcontainers/features/node@sha256:8c0de46939b61958041700ee89e3493f3b2e4131a06dc46b4d9423427d06e5f6",
       "integrity": "sha256:8c0de46939b61958041700ee89e3493f3b2e4131a06dc46b4d9423427d06e5f6"
+    },
+    "ghcr.io/phil-bell/devcontainer-features/antigen:1": {
+      "version": "1.0.3",
+      "resolved": "ghcr.io/phil-bell/devcontainer-features/antigen@sha256:75204591baac950dc64975ecf42a3a5908335348ed9a6260e0dc3d46d1cf9148",
+      "integrity": "sha256:75204591baac950dc64975ecf42a3a5908335348ed9a6260e0dc3d46d1cf9148"
     }
   }
 }
