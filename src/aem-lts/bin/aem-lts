@@ -1,8 +1,29 @@
 #!/usr/bin/env bash
+#
+# aem-lts - Manage AEM LTS instances in a dev container
+#
+# Usage:
+#   aem-lts start [author|publish] [-i]   Start an AEM instance
+#   aem-lts stop  [author|publish]        Stop a running AEM instance
+#
+# Options:
+#   -i    Interactive mode (start only): runs the Java process in the
+#         foreground so logs stream to the terminal. Use CTRL+C to stop.
+#
+# When started without -i, the process runs in the background as a daemon
+# and logs are written to /var/log/aem-<runmode>.log.
 
 source "$(dirname $0)/_globals.sh"
-action=$(get_action "${1}")
-service=$(get_runmode "${2}")
+
+# parse -i flag from any position in the arguments
+INTERACTIVE=false
+ARGS=()
+for arg in "$@"; do
+    [[ "${arg}" == "-i" ]] && INTERACTIVE=true || ARGS+=("${arg}")
+done
+
+action=$(get_action "${ARGS[0]}")
+service=$(get_runmode "${ARGS[1]}")
 
 echo "${action^}ing AEM ${service}..."
 
@@ -26,7 +47,7 @@ if [[ ! -f "${licenceFile}" ]]; then
         aem_lts_err "License customer name not set"
     [[ -z "${AEM_LTS_LICENSE_DOWNLOAD_ID}" ]] && \
         aem_lts_err "License download ID not set"
-        
+
     cat <<EOF | sudo tee "${licenceFile}" > /dev/null
 license.customer.name=${AEM_LTS_LICENSE_CUSTOMER_NAME}
 license.downloadID=${AEM_LTS_LICENSE_DOWNLOAD_ID}
@@ -47,28 +68,45 @@ licenseFileLink="${runmodedir}/license.properties"
 [[ ! -L "${licenseFileLink}" ]] && sudo ln -s "${licenceFile}" "${licenseFileLink}"
 
 # make user owner of crx-quickstart (it is a volume mount)
-sudo chown ${USER} "${runmodedir}/crx-quickstart"
+[[ -d "${runmodedir}/crx-quickstart" ]] && sudo chown ${USER} "${runmodedir}/crx-quickstart"
+
+PID_FILE="/tmp/aem-${service}.pid"
+
+# check if pid file exists and process is running
+IS_RUNNING=false
+[[ -f "${PID_FILE}" ]] && sudo kill -0 "$(cat "${PID_FILE}")" 2>/dev/null && IS_RUNNING=true
 
 case "${action}" in
     start)
 
-        [[ -f "/tmp/aem-${service}.pid" ]] && aem_lts_err "AEM ${service} already running"
+        ${IS_RUNNING} && aem_lts_err "AEM ${service} already running"
+        [[ -f "${PID_FILE}" ]] && sudo rm -f "${PID_FILE}"  # remove stale pid file if present
 
         port=$(get_runmode_port ${service})
         jvm_opts="-agentlib:jdwp=transport=dt_socket,address=*:3${port},server=y,suspend=n"
         cq_opts="-nofork -nobrowser -nointeractive -r ${service} -p ${port}"
 
-        sudo start-stop-daemon --start --quiet --background --chuid root \
-                               --make-pidfile --pidfile "/tmp/aem-${service}.pid" \
-                               --name ${service} \
-                               --chdir "$(dirname "${jarFileLink}")" \
-                               --startas /bin/bash -- -c "exec ${JAVA_HOME}/bin/java ${jvm_opts} -jar "${jarFileLink}" ${cq_opts} \
-                               > /var/log/aem-${service}.log 2>&1"
+        if ${INTERACTIVE}; then
+            # run in foreground; CTRL+C to stop
+            echo "Running in interactive mode, press CTRL+C to stop..."
+            ${JAVA_HOME}/bin/java ${jvm_opts} -jar "${jarFileLink}" ${cq_opts}
+        else
+            sudo start-stop-daemon --start --quiet --background --chuid root \
+                                   --make-pidfile --pidfile "${PID_FILE}" \
+                                   --name ${service} \
+                                   --chdir "$(dirname "${jarFileLink}")" \
+                                   --startas /bin/bash -- -c "exec ${JAVA_HOME}/bin/java ${jvm_opts} -jar "${jarFileLink}" ${cq_opts} \
+                                   > /var/log/aem-${service}.log 2>&1"
+        fi
     ;;
     stop)
 
+        ${IS_RUNNING} || aem_lts_err "AEM ${service} is not running"
+
+        # give it 2 minutes to shut down gracefully, force kill after 10 more seconds
         sudo start-stop-daemon --stop --verbose \
-                               --remove-pidfile --pidfile /tmp/aem-${service}.pid
+                               --remove-pidfile --pidfile "${PID_FILE}" \
+                               --retry TERM/120/KILL/10
     ;;
     *)
         aem_lts_err "Unknown action '${action}'"

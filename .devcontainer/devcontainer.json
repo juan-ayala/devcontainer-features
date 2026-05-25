@@ -13,20 +13,32 @@
                 ]
             },
             "extensions": [
-                "mads-hartmann.bash-ide-vscode"
+                "mads-hartmann.bash-ide-vscode",
+                "ms-vscode.vscode-chat-customizations-evaluations",
+                "GitHub.vscode-github-actions"
             ]
         }
     },
     "features": {
-        "ghcr.io/devcontainers/features/node:1": {
-            "version": "20"
+        "ghcr.io/phil-bell/devcontainer-features/antigen:1": {
+            "theme": "spaceship-prompt/spaceship-prompt",
+            "bundles": [
+                "zsh-users/zsh-syntax-highlighting",
+                "zsh-users/zsh-autosuggestions"
+            ]
         },
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "22"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:3": {
+            "moby": false
+        },
         "ghcr.io/devcontainers/features/java:1": {
             "version": "21",
             "jdkDistro": "oracle",
             "installMaven": true
-        }
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {}
     },
     "updateContentCommand": "npm install -g @devcontainers/cli",
     "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"

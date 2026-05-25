@@ -16,40 +16,45 @@ check "author port default" \
     [ "${AEM_LTS_AUTHOR_PORT}" = "4502" ]
 check "publish port default" \
     [ "${AEM_LTS_PUBLISH_PORT}" = "4503" ]
+
 # Check aem-lts in PATH is executable
 check "aem-lts is +x" \
     stat -c '%A' $(which aem-lts) | grep 'x.*x.*x'
 
-# Check that author installs, starts & stops correctly
-check "author: install & start" \
-    aem-lts start author
-sleep 3 # give it time to start
-check "author: check log for start message" \
-    grep 'Server started on port 4502' /var/log/aem-author.log
-check "author: compare pid file to java process" \
-    [ $(cat /tmp/aem-author.pid) -eq $(pgrep -x java) ]
-check "author: stop" \
-    aem-lts stop author
-sleep 3 # give it time to stop
-check "author: pid file should be removed" \
-    [ ! -f /tmp/aem-author.pid ]
-check "author: no java process should be running" \
-    [ -z $(pgrep -x java) ]
+test_runmode() {
+    local service=$1 port=$2
 
-# Check that publish installs, starts & stops correctly
-check "publish: install & start" \
-    aem-lts start publish
-sleep 3 # give it time to start
-check "publish: check log for start message" \
-    grep 'Server started on port 4503' /var/log/aem-publish.log
-check "publish: compare pid file to java process" \
-    [ $(cat /tmp/aem-publish.pid) -eq $(pgrep -x java) ]
-check "publish: stop" \
-    aem-lts stop publish
-sleep 3 # give it time to stop
-check "publish: pid file should be removed" \
-    [ ! -f /tmp/aem-publish.pid ]
-check "publish: no java process should be running" \
-    [ -z $(pgrep -x java) ]
+    # Simulate a stale pid file (process exited but file was left behind)
+    echo "99999" | sudo tee /tmp/aem-${service}.pid > /dev/null
+
+    check "${service}: install & start" \
+        aem-lts start ${service}
+    check "${service}: wait for server started on port ${port}" \
+        timeout 10 bash -c "until grep -q 'Server started on port ${port}' /var/log/aem-${service}.log 2>/dev/null; do sleep 0.5; done"
+    check "${service}: compare pid file to java process" \
+        [ $(cat /tmp/aem-${service}.pid) -eq $(pgrep -x java) ]
+    check "${service}: stop" \
+        aem-lts stop ${service}
+    check "${service}: pid file should be removed" \
+        [ ! -f /tmp/aem-${service}.pid ]
+    check "${service}: no java process should be running" \
+        [ -z $(pgrep -x java) ]
+
+    # Test interactive mode: start in background, capture stdout, verify process runs, then kill it
+    INTERACTIVE_LOG=$(mktemp)
+    aem-lts start ${service} -i > ${INTERACTIVE_LOG} &
+    INTERACTIVE_PID=$!
+    check "${service}: interactive mode wait for server started on port ${port}" \
+        timeout 10 bash -c "until grep -q 'Server started on port ${port}' ${INTERACTIVE_LOG} 2>/dev/null; do sleep 0.5; done"
+    check "${service}: interactive mode pid matches java process" \
+        [ $(pgrep -P ${INTERACTIVE_PID} -x java) -eq $(pgrep -x java) ]
+    kill $(pgrep -P ${INTERACTIVE_PID} -x java) 2>/dev/null
+    check "${service}: interactive mode java process stopped after kill" \
+        timeout 10 bash -c "until ! pgrep -x java > /dev/null; do sleep 0.5; done"
+    rm -f ${INTERACTIVE_LOG}
+}
+
+test_runmode author 4502
+test_runmode publish 4503
 
 reportResults
