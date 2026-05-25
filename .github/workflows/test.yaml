@@ -20,7 +20,7 @@ jobs:
           - mcr.microsoft.com/devcontainers/base:debian
           - mcr.microsoft.com/devcontainers/base:ubuntu
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: "Install latest devcontainer CLI"
         run: npm install -g @devcontainers/cli
@@ -37,7 +37,7 @@ jobs:
           - aem-sdk
           - aem-universal-editor-service
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: "Install latest devcontainer CLI"
         run: npm install -g @devcontainers/cli
