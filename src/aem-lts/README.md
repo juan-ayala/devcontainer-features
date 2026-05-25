@@ -53,9 +53,13 @@ In VSCode, open the terminal window. This is a terminal inside the docker contai
 
 There will be a script named `aem-lts`. Use this to start the author, publish or dispatcher.
 * Start author: `aem-lts start author`
+* Start author in interactive mode: `aem-lts start author -i`
 * Stop author: `aem-lts stop author`
 * Start publish: `aem-lts start publish`
+* Start publish in interactive mode: `aem-lts start publish -i`
 * Stop publish: `aem-lts stop publish`
+
+The `-i` flag runs the Java process in the foreground so logs stream to the terminal. Use `CTRL+C` to stop the interactive session.
 
 The feature also sets up volume mounts for the author and publish services. This is where the services will persist the repository. So that if the container gets deleted and/or rebuilt, the repository will persist.
 
