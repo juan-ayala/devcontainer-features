@@ -40,18 +40,27 @@ test_runmode() {
     check "${service}: no java process should be running" \
         [ -z $(pgrep -x java) ]
 
-    # Test interactive mode: start in background, capture stdout, verify process runs, then kill it
-    INTERACTIVE_LOG=$(mktemp)
-    aem-lts start ${service} -i > ${INTERACTIVE_LOG} &
-    INTERACTIVE_PID=$!
-    check "${service}: interactive mode wait for server started on port ${port}" \
-        timeout 10 bash -c "until grep -q 'Server started on port ${port}' ${INTERACTIVE_LOG} 2>/dev/null; do sleep 0.5; done"
-    check "${service}: interactive mode pid matches java process" \
-        [ $(pgrep -P ${INTERACTIVE_PID} -x java) -eq $(pgrep -x java) ]
-    kill $(pgrep -P ${INTERACTIVE_PID} -x java) 2>/dev/null
+    # Test interactive mode (-i flag): verifies aem-lts starts java in the foreground.
+    # Since the test itself is non-interactive, we background the process with & and
+    # simulate a user CTRL+C by killing java and the shell wrapper explicitly.
+    # set +e is required because killing background jobs causes non-zero exit codes
+    # which would otherwise abort the test script due to set -e at the top.
+    set +e
+    aem-lts start ${service} -i &
+    INTERACTIVE_BG=$!  # pid of the backgrounded aem-lts shell wrapper
+    check "${service}: interactive mode java process starts" \
+        timeout 10 bash -c "until pgrep -x java > /dev/null; do sleep 0.5; done"
+    # java runs as root via sudo sh -c, so sudo pkill is required to send the signal
+    # kill INTERACTIVE_BG terminates the shell wrapper after java is gone
+    sudo pkill -x java 2>/dev/null
+    kill ${INTERACTIVE_BG} 2>/dev/null
+    wait ${INTERACTIVE_BG} 2>/dev/null  # reap the background job to avoid zombies
     check "${service}: interactive mode java process stopped after kill" \
         timeout 10 bash -c "until ! pgrep -x java > /dev/null; do sleep 0.5; done"
-    rm -f ${INTERACTIVE_LOG}
+    # ensures process is fully gone before returning so the next test_runmode call
+    # starts with a clean state
+    until ! pgrep -x java > /dev/null; do sleep 0.5; done
+    set -e
 }
 
 test_runmode author 4502

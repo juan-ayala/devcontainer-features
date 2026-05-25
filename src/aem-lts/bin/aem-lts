@@ -79,8 +79,10 @@ IS_RUNNING=false
 case "${action}" in
     start)
 
-        ${IS_RUNNING} && aem_lts_err "AEM ${service} already running"
-        [[ -f "${PID_FILE}" ]] && sudo rm -f "${PID_FILE}"  # remove stale pid file if present
+        if ! ${INTERACTIVE}; then
+            ${IS_RUNNING} && aem_lts_err "AEM ${service} already running"
+            [[ -f "${PID_FILE}" ]] && sudo rm -f "${PID_FILE}"  # remove stale pid file if present
+        fi
 
         port=$(get_runmode_port ${service})
         jvm_opts="-agentlib:jdwp=transport=dt_socket,address=*:3${port},server=y,suspend=n"
@@ -89,7 +91,7 @@ case "${action}" in
         if ${INTERACTIVE}; then
             # run in foreground; CTRL+C to stop
             echo "Running in interactive mode, press CTRL+C to stop..."
-            ${JAVA_HOME}/bin/java ${jvm_opts} -jar "${jarFileLink}" ${cq_opts}
+            sudo sh -c "cd '$(dirname "${jarFileLink}")' && exec ${JAVA_HOME}/bin/java ${jvm_opts} -jar '${jarFileLink}' ${cq_opts}"
         else
             sudo start-stop-daemon --start --quiet --background --chuid root \
                                    --make-pidfile --pidfile "${PID_FILE}" \
